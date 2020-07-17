@@ -43,26 +43,26 @@ namespace T913384.Module {
         }
         private List<MyClass> contacts;
         private void Application_SetupComplete(object sender, EventArgs e) {
-            Application.ObjectSpaceCreated += Application_ObjectSpaceCreated;
+          //  Application.ObjectSpaceCreated += Application_ObjectSpaceCreated;
         }
-        private void Application_ObjectSpaceCreated(object sender, ObjectSpaceCreatedEventArgs e) {
-            NonPersistentObjectSpace nonPersistentObjectSpace = e.ObjectSpace as NonPersistentObjectSpace;
-            if (nonPersistentObjectSpace != null) {
-                nonPersistentObjectSpace.ObjectsGetting += ObjectSpace_ObjectsGetting;
-            }
-        }
-        private void ObjectSpace_ObjectsGetting(object sender, ObjectsGettingEventArgs e) {
-            if (e.ObjectType == typeof(MyClass)) {
-                DynamicCollection collection = new DynamicCollection((IObjectSpace)sender, e.ObjectType, e.Criteria, e.Sorting, e.InTransaction);
-                collection.FetchObjects += DynamicCollection_FetchObjects;
-                e.Objects = collection;
-            }
-        }
-        private void DynamicCollection_FetchObjects(object sender, FetchObjectsEventArgs e) {
-            if (e.ObjectType == typeof(MyClass)) {
-                e.Objects = contacts; // your collection of non-persistent objects.
-                e.ShapeData = true; // set to true if the supplied collection is not already filtered and sorted.
-            }
-        }
+        //private void Application_ObjectSpaceCreated(object sender, ObjectSpaceCreatedEventArgs e) {
+        //    NonPersistentObjectSpace nonPersistentObjectSpace = e.ObjectSpace as NonPersistentObjectSpace;
+        //    if (nonPersistentObjectSpace != null) {
+        //        nonPersistentObjectSpace.ObjectsGetting += ObjectSpace_ObjectsGetting;
+        //    }
+        //}
+        //private void ObjectSpace_ObjectsGetting(object sender, ObjectsGettingEventArgs e) {
+        //    if (e.ObjectType == typeof(MyClass)) {
+        //        DynamicCollection collection = new DynamicCollection((IObjectSpace)sender, e.ObjectType, e.Criteria, e.Sorting, e.InTransaction);
+        //        collection.FetchObjects += DynamicCollection_FetchObjects;
+        //        e.Objects = collection;
+        //    }
+        //}
+        //private void DynamicCollection_FetchObjects(object sender, FetchObjectsEventArgs e) {
+        //    if (e.ObjectType == typeof(MyClass)) {
+        //        e.Objects = contacts; // your collection of non-persistent objects.
+        //        e.ShapeData = true; // set to true if the supplied collection is not already filtered and sorted.
+        //    }
+        //}
     }
 }
