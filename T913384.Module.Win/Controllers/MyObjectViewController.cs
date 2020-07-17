@@ -38,7 +38,32 @@ namespace T913384.Module.Win.Controllers
             ObjectSpace.Refresh();
             Frame.GetController<FilterController>()?.Active.SetItemValue("Workaround T890466", false);
             Frame.GetController<FilterController>()?.Active.RemoveItem("Workaround T890466");
+
+            var refreshController = Frame.GetController<RefreshController>();
+            refreshController.RefreshAction.Executing += RefreshAction_Executing;
+            refreshController.RefreshAction.Executed += RefreshAction_Executed;
             // Perform various tasks depending on the target View.
+        }
+
+        private int? focusedRowHandle;
+        private void RefreshAction_Executed(object sender, ActionBaseEventArgs e)
+        {
+          
+            if (focusedRowHandle != null)
+            {
+                var gridEditor = View.Editor as GridListEditor;
+                gridEditor.GridView.UnselectRow(0);
+                gridEditor.GridView.FocusedRowHandle = (int)focusedRowHandle;
+               
+                gridEditor.GridView.SelectRow((int)focusedRowHandle);
+            }
+
+        }
+
+        private void RefreshAction_Executing(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var gridEditor = View.Editor as GridListEditor;
+            focusedRowHandle = gridEditor.GridView?.FocusedRowHandle;
         }
 
         private void View_CreateCustomCurrentObjectDetailView(object sender, CreateCustomCurrentObjectDetailViewEventArgs e)
@@ -97,6 +122,9 @@ namespace T913384.Module.Win.Controllers
             base.OnDeactivated();
 
             View.CreateCustomCurrentObjectDetailView -= View_CreateCustomCurrentObjectDetailView;
+            var refreshController = Frame.GetController<RefreshController>();
+            refreshController.RefreshAction.Executing -= RefreshAction_Executing;
+            refreshController.RefreshAction.Executed -= RefreshAction_Executed;
 
         }
         private void os_ObjectsGetting(object sender, ObjectsGettingEventArgs e)
