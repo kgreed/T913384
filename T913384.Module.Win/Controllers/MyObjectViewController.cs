@@ -22,6 +22,11 @@ namespace T913384.Module.Win.Controllers
         public MyObjectViewController()
         {
             TargetObjectType = typeof(MyClass);
+            contacts = new List<MyClass>();
+            for (int i = 0; i < 20; i++)
+            {
+                contacts.Add(new MyClass() { ID = i, Name = "Name" + i });
+            }
             InitializeComponent();
             // Target required Views (via the TargetXXX properties) and create their Actions.
         }
@@ -30,6 +35,10 @@ namespace T913384.Module.Win.Controllers
             base.OnActivated();
             var os = (NonPersistentObjectSpace)ObjectSpace;
             os.ObjectsGetting += os_ObjectsGetting;
+
+            ObjectSpace.Refresh();
+            Frame.GetController<FilterController>()?.Active.SetItemValue("Workaround T890466", false);
+            Frame.GetController<FilterController>()?.Active.RemoveItem("Workaround T890466");
             // Perform various tasks depending on the target View.
         }
         protected override void OnViewControlsCreated()
