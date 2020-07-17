@@ -123,9 +123,40 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\CommonListViewController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\CommonWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\DragAndDropController.cs" />
+    <Compile Include="Controllers\DragAndDropController.Designer.cs">
+      <DependentUpon>DragAndDropController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\INonPersistentBusinessObject.cs" />
+    <Compile Include="Controllers\MdiShowViewStrategyEx.cs" />
     <Compile Include="Controllers\MyObjectViewController.cs" />
     <Compile Include="Controllers\MyObjectViewController.Designer.cs">
       <DependentUpon>MyObjectViewController.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\MyWinWindowTemplateController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\NonPersistentController.cs" />
+    <Compile Include="Controllers\TabsCustomizationWindowController.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ViewController1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\ViewController1.Designer.cs">
+      <DependentUpon>ViewController1.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controllers\WindowController1.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Controllers\WindowController1.Designer.cs">
+      <DependentUpon>WindowController1.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WinModule.cs">

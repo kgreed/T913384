@@ -35,12 +35,19 @@ namespace T913384.Module.Win.Controllers
             base.OnActivated();
             var os = (NonPersistentObjectSpace)ObjectSpace;
             os.ObjectsGetting += os_ObjectsGetting;
-
+            View.CreateCustomCurrentObjectDetailView += View_CreateCustomCurrentObjectDetailView;
             ObjectSpace.Refresh();
             Frame.GetController<FilterController>()?.Active.SetItemValue("Workaround T890466", false);
             Frame.GetController<FilterController>()?.Active.RemoveItem("Workaround T890466");
             // Perform various tasks depending on the target View.
         }
+
+        private void View_CreateCustomCurrentObjectDetailView(object sender, CreateCustomCurrentObjectDetailViewEventArgs e)
+        {
+            if (e.ListViewCurrentObject == null) return;
+           // var os = Application.CreateObjectSpace(typeof(JobExt));
+        }
+
         protected override void OnViewControlsCreated()
         {
             base.OnViewControlsCreated();
@@ -60,6 +67,7 @@ namespace T913384.Module.Win.Controllers
         {
          
                 DynamicCollection collection = new DynamicCollection((IObjectSpace)sender, e.ObjectType, e.Criteria, e.Sorting, e.InTransaction);
+                collection.FetchObjects -= DynamicCollection_FetchObjects;
                 collection.FetchObjects += DynamicCollection_FetchObjects;
                 e.Objects = collection;
             
@@ -67,8 +75,19 @@ namespace T913384.Module.Win.Controllers
         private List<MyClass> contacts;
         private void DynamicCollection_FetchObjects(object sender, FetchObjectsEventArgs e)
         {
-       
-                e.Objects =   contacts; // your collection of non-persistent objects.
+            if (View == null) return;
+
+
+            var filterController = Frame.GetController<FilterController>();
+            var selectedFilterItem = filterController.SetFilterAction.SelectedItem;
+            if (selectedFilterItem == null) return;
+            var caption = selectedFilterItem.Caption.ToLower();
+            //var filterNum = ToDoListFilterEnum.IncludeTickedBeforeToday;
+            //if (caption.Contains("green")) filterNum = ToDoListFilterEnum.GreenLightsOnly;
+            //if (caption.Contains("hide")) filterNum = ToDoListFilterEnum.HideTickedBeforeToday;
+
+
+            e.Objects =   contacts; // your collection of non-persistent objects.
                 e.ShapeData = true; // set to true if the supplied collection is not already filtered and sorted.
            
         }

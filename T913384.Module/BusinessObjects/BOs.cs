@@ -8,9 +8,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using DevExpress.ExpressApp.SystemModule;
 namespace T913384.Module.BusinessObjects {
     [DefaultClassOptions]
+
     public class Test : BaseObject {
         public Test(Session session) : base(session) { }
 
@@ -24,6 +25,9 @@ namespace T913384.Module.BusinessObjects {
         }
     }
     [DomainComponent, DefaultClassOptions]
+    [ListViewFilter("Green lights or soon only", "true", "Green Lights Only", true, Index = 0)]
+    [ListViewFilter("Hide ticked before today", "true", "Hide Ticked Before Today", false, Index = 1)]
+    [ListViewFilter("Include ticked before today", "true", "Include Ticked Before Today", false, Index = 2)]
     public class MyClass {
 
         string name;
@@ -38,6 +42,7 @@ namespace T913384.Module.BusinessObjects {
             get => name;
             set => name = value;
         }
-        
+        public decimal Priority { get; set; }
+        public bool TagToSetPriority { get; set; }
     }
 }
