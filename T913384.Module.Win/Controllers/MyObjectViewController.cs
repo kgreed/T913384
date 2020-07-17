@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using DevExpress.Data.Filtering;
+using DevExpress.Export;
 using DevExpress.ExpressApp;
 using DevExpress.ExpressApp.Actions;
 using DevExpress.ExpressApp.Editors;
@@ -12,6 +13,7 @@ using DevExpress.ExpressApp.Model.NodeGenerators;
 using DevExpress.ExpressApp.SystemModule;
 using DevExpress.ExpressApp.Templates;
 using DevExpress.ExpressApp.Utils;
+using DevExpress.ExpressApp.Win.Editors;
 using DevExpress.Persistent.Base;
 using DevExpress.Persistent.Validation;
 using T913384.Module.BusinessObjects;
@@ -99,45 +101,44 @@ namespace T913384.Module.Win.Controllers
         }
         private void os_ObjectsGetting(object sender, ObjectsGettingEventArgs e)
         {
-         
+                //var gridEditor = View.Editor as GridListEditor;
+                //var focussedRowHandle = gridEditor.GridView?.FocusedRowHandle;
                 DynamicCollection collection = new DynamicCollection((IObjectSpace)sender, e.ObjectType, e.Criteria, e.Sorting, e.InTransaction);
                 collection.FetchObjects -= DynamicCollection_FetchObjects;
                 collection.FetchObjects += DynamicCollection_FetchObjects;
                 e.Objects = collection;
-            
+                //if (focussedRowHandle != null)
+                //{
+                //    gridEditor.GridView.FocusedRowHandle = (int)focussedRowHandle;
+                //}
         }
         private List<XMyClass> contacts;
         private void DynamicCollection_FetchObjects(object sender, FetchObjectsEventArgs e)
         {
-            if (View == null) return;
-
-
-            var filterController = Frame.GetController<FilterController>();
-            var selectedFilterItem = filterController.SetFilterAction.SelectedItem;
-            if (selectedFilterItem == null) return;
-            var caption = selectedFilterItem.Caption.ToLower();
-            //var filterNum = ToDoListFilterEnum.IncludeTickedBeforeToday;
-            //if (caption.Contains("green")) filterNum = ToDoListFilterEnum.GreenLightsOnly;
-            //if (caption.Contains("hide")) filterNum = ToDoListFilterEnum.HideTickedBeforeToday;
-
-
-            //e.Objects =   contacts; // your collection of non-persistent objects.
-
-            e.Objects = MakeContacts();
-            e.ShapeData = true; // set to true if the supplied collection is not already filtered and sorted.
-           
+            MakeContacts();
+            e.Objects = contacts;
+            e.ShapeData = true;
+            
         }
 
-        private IEnumerable MakeContacts()
+        private  void MakeContacts()
         {
-            
-            var _contacts = new List<XMyClass>();
+            if (contacts == null)
+            {
+                contacts = new List<XMyClass>();
+            }
+            else
+            {
+                contacts.RemoveAll(x => x.ID > 0);
+            }
+             
+          
             for (int i = 0; i < 20; i++)
             {
-                _contacts.Add(new XMyClass() { ID = i, Name = "Name" + i });
+                contacts.Add(new XMyClass() { ID = i, Name = "Name" + i });
             }
 
-            return _contacts;
+            return ;
         }
     }
 }

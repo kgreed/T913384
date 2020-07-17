@@ -159,6 +159,7 @@
       <DependentUpon>WindowController1.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RefreshHelperClass.cs" />
     <Compile Include="WinModule.cs">
       <SubType>Component</SubType>
     </Compile>
