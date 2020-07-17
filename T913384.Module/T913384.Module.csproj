@@ -83,7 +83,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BusinessObjects\BOs.cs" />
+    <Compile Include="BusinessObjects\Test.cs" />
+    <Compile Include="BusinessObjects\MyClass.cs" />
+    <Compile Include="BusinessObjects\XMyClass.cs" />
     <Compile Include="DatabaseUpdate\Updater.cs" />
     <Compile Include="Module.cs">
       <SubType>Component</SubType>
